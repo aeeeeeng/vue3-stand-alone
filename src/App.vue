@@ -1,9 +1,9 @@
 <script setup>
-import FetchingData from './components/fetching-data/FetchingData.vue'
+import Container from './components/grid/Container.vue'
 </script>
 
 <template>
-  <FetchingData/>
+  <Container/>
 </template>
 
 <style scoped>
