@@ -1,6 +1,5 @@
 <script setup>
 import { computed } from "vue";
-import { useMoviesStore } from "../stores/movies";
 import router from "@/routes";
 
 const props = defineProps({

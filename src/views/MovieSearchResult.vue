@@ -29,6 +29,9 @@ const close = () => {
             </span>
             <v-btn @click="close" icon="mdi-close" variant="text"></v-btn>
         </v-card-title>
-        <MovieList/>
+        <MovieList
+            :isLoading="moviesStore.isLoading"
+            :movies="moviesStore.movies"
+        />
     </v-card>
 </template>
