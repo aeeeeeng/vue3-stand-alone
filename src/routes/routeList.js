@@ -24,6 +24,13 @@ const routes = [
         component: () => import('../views/MovieDetails.vue'),
         props: true
     },
+    { 
+        path: '/movies-search-result', 
+        name: 'MovieSearchResult',
+        title: null,
+        component: () => import('../views/MovieSearchResult.vue'),
+        props: true
+    },
     {
         path: '/:pathMatch(.*)*',
         name: "NotFound",
