@@ -2,6 +2,7 @@
 import { onMounted } from "vue";
 import MovieImages from "../components/MovieImages.vue";
 import { useMoviesStore } from "../stores/movies";
+import MovieDescription from "@/components/MovieDescription.vue";
 
 const props = defineProps({
     id: {
@@ -12,43 +13,43 @@ const props = defineProps({
 
 const moviesStore = useMoviesStore();
 
-onMounted(async() => {
-    await moviesStore.findMovies(props.id);
+onMounted(() => {
+    moviesStore.findMovies(props.id);
+    moviesStore.selectedImage = 0
 })
+
 
 </script>
 
 <template>
-    <section class="bg-white dark:bg-gray-100 m-6 p-4">
-        <div v-if="isLoading" class="container">Loading ...</div>
-        <div v-else class="container" >
-            <div class="flex flex-col items-center px-4 py-12 mx-auto xl:flex-row">
-                <div class="flex justify-center xl:w-1/2">
-                    <img 
-                        class="h-80 w-80 sm:w-[28rem] sm:h-[28rem] flex-shrink-0 object-cover rounded-md"
-                        :src="moviesStore.movie.poster"
-                        :alt="moviesStore.movie.title"
+    <v-card>
+        <v-card-title class="d-flex justify-space-between">
+            <span>
+                Description of {{ moviesStore.movie.title }}
+            </span>
+            <v-btn @click="$router.back()" icon="mdi-close" variant="text"></v-btn>
+        </v-card-title>
+        <v-container>
+            <v-row>
+                <v-col cols="12" sm="6">
+                    <v-img
+                        class="bg-white"
+                        :aspect-ratio="1"
+                        :src="moviesStore.mainImage"
+                        cover
+                    ></v-img>
+                    <MovieImages 
+                        :images="moviesStore.allImagesMovie" 
+                        :title="moviesStore.movie.title" 
                     />
-                </div>
-                <div class="flex flex-col items-center mt-6 xl:items-start xl:w-1/2 xl:mt-0">
-                    <h2 class="text-3xl font-bold tracking-tight text-gray-800 xl:text-4xl dark:text-black">
-                        {{ moviesStore.movie.title }}
-                    </h2>
-                    <p class="mb-2">{{ moviesStore.movie.plot }}</p>
-                    <span class="m-2 p-2 bg-slate-300 text-slate-800 rounded-md">
-                        {{ moviesStore.movie.year }}
-                    </span>
-                    <span class="m-2 p-2 bg-slate-300 text-slate-800 rounded-md">
-                        {{ moviesStore.movie.runtime }}
-                    </span>
-                    <div class="mt-6 sm:mx-2">
-                        <button @click="$router.back()" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                            <span class="mx-2">Go Back</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <MovieImages :images="moviesStore.movie.images" :title="moviesStore.movie.title" />
-        </div>
-    </section>
+                </v-col>
+                <v-col cols="12" sm="6">
+                    <MovieDescription :movie="moviesStore.movie" :fullDescription="true"></MovieDescription>
+                </v-col>
+            </v-row>
+            <v-row>
+                
+            </v-row>
+        </v-container>
+    </v-card>
 </template>
