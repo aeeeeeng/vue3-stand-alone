@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted } from "vue";
-import MovieImages from "../components/MovieImages.vue";
 import { useMoviesStore } from "../stores/movies";
+import MovieImages from "../components/MovieImages.vue";
 import MovieDescription from "@/components/MovieDescription.vue";
 
 const props = defineProps({
@@ -18,6 +18,9 @@ onMounted(() => {
     moviesStore.selectedImage = 0
 })
 
+const selectImage = (selected) => {
+    moviesStore.selectedImage = selected
+}
 
 </script>
 
@@ -40,15 +43,14 @@ onMounted(() => {
                     ></v-img>
                     <MovieImages 
                         :images="moviesStore.allImagesMovie" 
-                        :title="moviesStore.movie.title" 
+                        :selectImage="selectImage"
                     />
                 </v-col>
                 <v-col cols="12" sm="6">
-                    <MovieDescription :movie="moviesStore.movie" :fullDescription="true"></MovieDescription>
+                    <MovieDescription 
+                        :movie="moviesStore.movie" 
+                        :fullDescription="true" />
                 </v-col>
-            </v-row>
-            <v-row>
-                
             </v-row>
         </v-container>
     </v-card>

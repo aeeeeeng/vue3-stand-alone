@@ -1,18 +1,20 @@
 <script setup>
 import MovieCard from "../components/MovieCard.vue";
-import { useMoviesStore } from "../stores/movies";
 
-const moviesStore = useMoviesStore()
+const props = defineProps({
+    isLoading: Boolean,
+    movies: Array    
+})
 
 </script>
 
 <template>
     <v-container>
         <v-row>
-            <v-col v-if="moviesStore.isLoading">
+            <v-col v-if="isLoading">
                 <h1>Please wait</h1>
             </v-col>
-            <v-col v-else v-for="movie in moviesStore.movies" :key="movie.id" cols="12" sm="4">
+            <v-col v-else v-for="movie in movies" :key="movie.id" cols="12" sm="4">
                 <MovieCard :movie="movie" />
             </v-col>
         </v-row>    

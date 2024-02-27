@@ -14,6 +14,9 @@ onMounted(() => {
 
 <template>
     <v-card title="Movie List" >
-        <MovieList/>
+        <MovieList
+            :isLoading="moviesStore.isLoading"
+            :movies="moviesStore.movies"
+        />
     </v-card>
 </template>
