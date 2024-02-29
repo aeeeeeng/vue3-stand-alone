@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { findMoviesByID, getAndSearchMovies } from "@/services/connections/movies/index";
 
 export const useMoviesStore = defineStore('movies', {
     state: () => ({
@@ -37,23 +38,24 @@ export const useMoviesStore = defineStore('movies', {
                 params.genre_like = this.filter.genre_like
             }
             const paramsString = new URLSearchParams(params).toString();
-            const result = await fetch(`http://localhost:8000/movies?${paramsString}`)
-            if (result.status === 404) {
-                this.router.push({name: 'NotFound'})
-            }
-            const repsonse = await result.json()   
-            this.movies = repsonse
-            this.isLoading = false
+
+            this.isLoading = true
+            await getAndSearchMovies(paramsString)
+                .then(response => {
+                    this.movies = response
+                }).finally(() => {
+                    this.isLoading = false
+                })
         },
         async findMovies(id) {
             this.isLoading = true
-            const result = await fetch(`http://localhost:8000/movies/${parseInt(id)}`)
-            if (result.status === 404) {
-                this.router.push({name: 'NotFound'})
-            }
-            const response  = await result.json()
-            this.movie = response
-            this.isLoading = false
+            await findMoviesByID(id)
+                .then(response => {
+                    this.movie = response
+                })
+                .finally(() => {
+                    this.isLoading = false
+                })
         }
     },
 })
