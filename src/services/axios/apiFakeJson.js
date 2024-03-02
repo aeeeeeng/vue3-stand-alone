@@ -16,7 +16,6 @@ apiFakeJson.interceptors.response.use(
     },
     (error) => {
         const {status} = error.response
-        console.log(status);
         if (status === 404) {
             router.push({name: 'NotFound'})
         }

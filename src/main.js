@@ -12,6 +12,7 @@ import * as directives from 'vuetify/directives'
 import router from './routes'
 import App from './App.vue'
 import LoadingComponent from "./components/LoadingComponent.vue";
+import SnackbarComponent from "@/components/SnackbarComponent.vue";
 
 const pinia = createPinia()
 pinia.use(({ store }) => {
@@ -28,8 +29,9 @@ const vuetify = createVuetify({
 })
 
 const app = createApp(App)
-app.use(router)
 app.use(pinia)
+app.use(router)
 app.use(vuetify)
 app.component('LoadingComponent', LoadingComponent)
+app.component('SnackbarComponent', SnackbarComponent)
 app.mount('#app')

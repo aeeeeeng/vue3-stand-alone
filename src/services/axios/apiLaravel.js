@@ -7,6 +7,10 @@ const apiLaravel = axios.create({
 })
 
 apiLaravel.interceptors.request.use(request => {
+    const token = localStorage.getItem('token');
+    if (token) {
+        request.headers.Authorization = `Bearer ${token}`
+    }
     return request
 })
 
@@ -15,10 +19,11 @@ apiLaravel.interceptors.response.use(
         return response.data
     },
     (error) => {
-        if (error.status === 404) {
+        const {status} = error.response
+        if (status === 404) {
             router.push({name: 'NotFound'})
         }
-        return error.response
+        throw error.response
     }
 )
 

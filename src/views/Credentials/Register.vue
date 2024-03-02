@@ -1,4 +1,25 @@
 <script setup>
+import { useUsersStore } from '@/stores/users';
+import { reactive, onMounted } from 'vue';
+
+
+const usersStore = useUsersStore()
+
+const user = reactive({
+    name: '',
+    email: '',
+    password: '',
+    password_confirmation: ''
+})
+
+onMounted(() => {
+    usersStore.validations = {}
+})
+
+const register = async () => {
+    await usersStore.register(user)
+}
+
 </script>
 
 <template>
@@ -8,20 +29,28 @@
             <v-card-item>
                 <form @submit.prevent="submit">
                     <v-text-field
+                        v-model="user.name"
+                        :error-messages="usersStore.validations.name && usersStore.validations.name[0]"
                         label="Name"
                         placeholder="John Doe"
                         type="text"
                     ></v-text-field>
                     <v-text-field
+                        v-model="user.email"
+                        :error-messages="usersStore.validations.email && usersStore.validations.email[0]"
                         label="E-mail"
                         placeholder="johndoe@gmail.com"
                         type="email"
                     ></v-text-field>
                     <v-text-field
+                        v-model="user.password"
+                        :error-messages="usersStore.validations.password && usersStore.validations.password[0]"
                         label="Password"
                         type="password"
                     ></v-text-field>
                     <v-text-field
+                        v-model="user.password_confirmation"
+                        :error-messages="usersStore.validations.password_confirmation && usersStore.validations.password_confirmation[0]"
                         label="Password Confirmation"
                         type="password"
                     ></v-text-field>
@@ -31,6 +60,7 @@
                         type="submit"
                         color="primary"
                         variant="elevated"
+                        @click="register"
                     >
                         Sign Up
                     </v-btn>

@@ -1,31 +1,22 @@
 <script setup>
-  import Navbar from "./components/Navbar.vue";
-  import LoadingComponent from "./components/LoadingComponent.vue";
-  import router from "./routes";
-import { ref } from "vue";
+import Navbar from "./components/Navbar.vue";
+import LoadingComponent from "./components/LoadingComponent.vue";
+import SnackbarComponent from "@/components/SnackbarComponent.vue";
+import { useUtilsStore } from "@/stores/utils";
 
-  const loading = ref(false);
-
-  router.beforeEach(() => {
-    loading.value = true;
-  });
-
-  router.afterEach(() => {
-    setTimeout(() => {
-      loading.value = false;
-    }, 500);
-  });
+const utilsStore = useUtilsStore()
 
 </script>
 
 <template>
-  
+      <SnackbarComponent/>
       <v-app>
         <Navbar />
         <v-main>
+          <v-progress-linear v-if="utilsStore.isLoadingPage" :indeterminate="true" color="primary"></v-progress-linear>
+          <!-- <LoadingComponent/> -->
           <v-container >
-            <LoadingComponent v-if="loading"/>
-            <RouterView v-else/>
+            <RouterView/>
           </v-container>
         </v-main>
       </v-app>
